@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI ;
+
 
 public class PlayerController : MonoBehaviour {
     public float jumpHeight = 30f;
     public float maxSpeed = 5f;
-
+	public Text countText;
+	public Text winText;
     [SerializeField]
     private Transform[] groundPoints;
 
@@ -13,13 +16,20 @@ public class PlayerController : MonoBehaviour {
     private LayerMask whatIsGround;
     private bool isGround = false;
     private Rigidbody2D rb;
+	private int count;
 
     
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-    }
+		count = 0;
+		winText.text = "";
+		countText.text = "SCORE: " + count.ToString ();
+		if (count >= 8)
+		{ winText.text = " YOU WIN";
+		}
+	}
 
 
     void FixedUpdate()
@@ -40,7 +50,15 @@ public class PlayerController : MonoBehaviour {
         }
         isGround = IsGround();
     }
-
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("coin"))
+        {
+            other.gameObject.SetActive(false);
+			count = count + 1;
+			countText.text = "SCORE: " + count.ToString ();
+		}
+    }
     private bool IsGround()
     {
         if (rb.velocity.y <= 0)
