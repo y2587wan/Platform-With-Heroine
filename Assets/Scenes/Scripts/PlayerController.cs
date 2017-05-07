@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.UI ;
-
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
     public float jumpHeight = 30f;
     public float maxSpeed = 5f;
-	public Text countText;
-	public Text winText;
+    public Text countText;
+    public Text winText;
+
     [SerializeField]
     private Transform[] groundPoints;
 
@@ -16,13 +16,14 @@ public class PlayerController : MonoBehaviour {
     private LayerMask whatIsGround;
     private bool isGround = false;
     private Rigidbody2D rb;
-	private int count;
-
-    
+    public Animator animator;
+    bool faceRight = true;
+    private int count;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+<<<<<<< HEAD:Assets/Scenes/Scripts/PlayerController.cs
 		count = 0;
 		winText.text = "";
 		countText.text = "SCORE: " + count.ToString ();
@@ -30,15 +31,29 @@ public class PlayerController : MonoBehaviour {
 		{ winText.text = " YOU WIN";
 		}
 	}
+=======
+        count = 0;
+        winText.text = "";
+        countText.text = "$ " + count.ToString();
+    }
+>>>>>>> origin/master:Assets/Scripts/PlayerController.cs
 
 
     void FixedUpdate()
     {
 
         isGround = IsGround();
- 
-            float move = Input.GetAxis("Horizontal");
-            rb.velocity = new Vector2(move * maxSpeed, rb.velocity.y);
+        float move = Input.GetAxis("Horizontal");
+        if (move > 0 && !faceRight)
+        {
+            flip();
+        } else if (move < 0 && faceRight)
+        {
+            flip();
+        }
+        animator.SetFloat("walkSpeed", move);
+        animator.SetBool("ground", isGround);
+        rb.velocity = new Vector2(move * maxSpeed, rb.velocity.y);
         if (rb.position.y <= -3)
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
@@ -49,16 +64,9 @@ public class PlayerController : MonoBehaviour {
             rb.AddForce(Vector2.up * jumpHeight);
         }
         isGround = IsGround();
+        KillCharacter();
     }
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("coin"))
-        {
-            other.gameObject.SetActive(false);
-			count = count + 1;
-			countText.text = "SCORE: " + count.ToString ();
-		}
-    }
+
     private bool IsGround()
     {
         if (rb.velocity.y <= 0)
@@ -77,5 +85,43 @@ public class PlayerController : MonoBehaviour {
             }
         }
         return false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy")
+        {
+            Enemy enemy = collision.GetComponentInParent<Enemy>();
+            Destroy(enemy.gameObject);
+        }
+
+        if (collision.gameObject.CompareTag("coin"))
+        {
+            collision.gameObject.SetActive(false);
+            count = count + 100;
+            countText.text = "$ " + count.ToString();
+        }
+
+        if (collision.tag =="goal")
+        {
+            winText.text = " YOU WIN";
+        }
+    }
+
+    void KillCharacter()
+    {
+        if (rb.position.y < -3)
+        {
+            Destroy(rb.gameObject);
+        }
+
+    }
+
+    void flip()
+    {
+        faceRight = !faceRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 }
