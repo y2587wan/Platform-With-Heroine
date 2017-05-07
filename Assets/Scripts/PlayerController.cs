@@ -26,9 +26,7 @@ public class PlayerController : MonoBehaviour {
 		count = 0;
 		winText.text = "";
 		countText.text = "SCORE: " + count.ToString ();
-		if (count >= 8)
-		{ winText.text = " YOU WIN";
-		}
+
 	}
 
 
@@ -57,7 +55,11 @@ public class PlayerController : MonoBehaviour {
             other.gameObject.SetActive(false);
 			count = count + 1;
 			countText.text = "SCORE: " + count.ToString ();
-		}
+            if (count >= 1)
+            {
+                winText.text = " YOU WIN";
+            }
+        }
     }
     private bool IsGround()
     {
