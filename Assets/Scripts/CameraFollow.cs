@@ -16,7 +16,10 @@ public class CameraFollow : MonoBehaviour {
 	
 	void Update () 
 	{
-		
+        if (target == null)
+        {
+            target = GameObject.Find("Canvas").transform;
+        }
 	}
 	
     void LateUpdate()
