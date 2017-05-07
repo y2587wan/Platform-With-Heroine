@@ -128,4 +128,6 @@ public class PlayerController : MonoBehaviour {
         scale.x *= -1;
         transform.localScale = scale;
     }
+
+
 }

@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour {
     public Animator animator;
     bool faceRight = true;
     float move;
-
+    public GameObject self;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour {
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log(collision.collider.name);
+   
         PlayerController player = collision.collider.GetComponent<PlayerController>();
         if (player != null)
         {
@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour {
             rb.velocity = new Vector2(0, 0);
         }
     }
+
 
     void flip()
     {

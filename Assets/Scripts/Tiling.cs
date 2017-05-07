@@ -1,8 +1,4 @@
-﻿/*
-*	Copyright (c) Alex
-*/
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 [RequireComponent (typeof(SpriteRenderer))]
@@ -10,9 +6,8 @@ using System.Collections;
 public class Tiling : MonoBehaviour {
 
     #region Variables
-    public int offsetX = 2; // the offset so that we dont get any weird errors
+    public int offsetX = 2;
 
-    // these are used for checking if we need to instantiate stuff
     public bool hasARightBuddy = false;
     public bool hasALeftBuddy = false;
 
@@ -42,7 +37,6 @@ public class Tiling : MonoBehaviour {
 	{
 		if(hasALeftBuddy == false || hasARightBuddy == false)
         {
-            // calculate the cameras extend (half the width) of what the camera can see in world coordinates
             float camHorizontalExend = cam.orthographicSize * Screen.width / Screen.height;
 
             // calculate 
@@ -64,15 +58,13 @@ public class Tiling : MonoBehaviour {
         }
 	}
 	
-    // a function that creates a buddy on the side required
+
     void MakeNewBuddy (int rightOrLeft)
     {
-        // calculating the new position for our new buddy
-        Vector3 newPosition = new Vector3(myTransform.position.x + spriteWidth * rightOrLeft, myTransform.position.y, myTransform.position.z);
-        // instantating our new body and storing him in a variable
-        Transform newBuddy = Instantiate (myTransform, newPosition, myTransform.rotation) as Transform;
 
-        // if not tilable let's reverse the x size of our object to get rid of seams
+        Vector3 newPosition = new Vector3(myTransform.position.x + spriteWidth * rightOrLeft, myTransform.position.y, myTransform.position.z);
+
+        Transform newBuddy = Instantiate (myTransform, newPosition, myTransform.rotation) as Transform;
         if (reverseScale == true)
         {
             newBuddy.localScale = new Vector3(newBuddy.localScale.x * -1, newBuddy.localScale.y, newBuddy.position.z);
