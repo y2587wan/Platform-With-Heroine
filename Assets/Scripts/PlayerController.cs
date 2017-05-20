@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour {
     public float maxSpeed = 5f;
     public Text countText;
     public Text winText;
-    private bool hasEnd = false;
     [SerializeField]
     private Transform[] groundPoints;
 

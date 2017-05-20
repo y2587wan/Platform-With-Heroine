@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class Goal : MonoBehaviour {
 
     private bool hasEnd = false;
-
+    public GameObject canves;
     void OnTriggerEnter2D()
     {
         if (hasEnd)
@@ -20,7 +20,6 @@ public class Goal : MonoBehaviour {
     {
         Debug.Log("End");
         yield return new WaitForSeconds(1f);
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
