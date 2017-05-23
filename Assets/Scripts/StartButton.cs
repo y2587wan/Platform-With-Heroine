@@ -7,6 +7,5 @@ public class StartButton: MonoBehaviour {
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
-
-  }
+}
 
